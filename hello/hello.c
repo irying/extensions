@@ -41,6 +41,9 @@ PHP_FUNCTION(confirm_hello_compiled)
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
+    php_printf("arg(%d) value:", arg_len);
+    PHPWRITE(arg, arg_len);
+    php_printf("\n");
 
 	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "hello", arg);
 	RETURN_STRINGL(strg, len, 0);
@@ -50,6 +53,24 @@ PHP_FUNCTION(confirm_hello_compiled)
 PHP_FUNCTION(helloWorld)
 {
 	php_printf("Hello World!\n");
+}
+
+PHP_FUNCTION(say)
+{
+	char *name;
+    int name_len;
+    char *word = "World";
+    int word_len = sizeof("World")-1;
+
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s|s", &name, &name_len, &word, &word_len) == FAILURE) {
+        return;
+    }
+
+    PHPWRITE(name, name_len);
+    php_printf(" ");
+    PHPWRITE(word, word_len);
+
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 
@@ -131,6 +152,7 @@ PHP_MINFO_FUNCTION(hello)
 const zend_function_entry hello_functions[] = {
 	PHP_FE(confirm_hello_compiled,	NULL)		/* For testing, remove later. */
 	PHP_FE(helloWorld,	NULL)
+	PHP_FE(say,	NULL)
 	PHP_FE_END	/* Must be the last line in hello_functions[] */
 };
 /* }}} */

@@ -19,4 +19,6 @@ if (extension_loaded($module)) {
 }
 echo "$str\n";
 helloWorld();
+//echo confirm_hello_compiled(23);
+say('hero','man');
 ?>
